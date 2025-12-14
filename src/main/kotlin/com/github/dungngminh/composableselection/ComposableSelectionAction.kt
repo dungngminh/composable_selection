@@ -3,15 +3,10 @@ package com.github.dungngminh.composableselection
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
 
 /**
- * Action triggered by shortcut (Option+W / Alt+W by default) to select Composable functions.
+ * Action triggered by shortcut (Option+Shift+W / Alt+Shift+W by default) to select Composable functions.
  */
 class ComposableSelectionAction : AnAction() {
 

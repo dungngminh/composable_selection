@@ -1,7 +1,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# composable_selection Changelog
+# Composable Selection's Changelog
 
-## [Unreleased]
-### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+## 1.0.0 - 2025-12-14
+
+- Initial release of Composable Selection plugin.
+
