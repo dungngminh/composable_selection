@@ -5,11 +5,21 @@
     <vendor>dungngminh</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.dungngminh.composableselection.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.dungngminh.composableselection.startup.MyProjectActivity" />
+        <intentionAction>
+            <className>com.github.dungngminh.composableselection.ComposableSelectionIntention</className>
+            <category>Compose</category>
+        </intentionAction>
     </extensions>
+
+    <actions>
+        <action id="ComposableSelectionAction" class="com.github.dungngminh.composableselection.ComposableSelectionAction" text="Select Composable" description="Selects the nearest composable function or matches the parent composable">
+            <keyboard-shortcut keymap="$default" first-keystroke="alt W"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta W"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta W"/>
+            <add-to-group group-id="EditMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
