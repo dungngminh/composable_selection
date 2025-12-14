@@ -2,10 +2,15 @@
 <idea-plugin>
     <id>com.github.dungngminh.composableselection</id>
     <name>Composable Selection</name>
-    <vendor>dungngminh</vendor>
+    <vendor email="ngminhdung1311@gmail.com" url="https://github.com/dungngminh">dungngminh</vendor>
+
+    <description>
+        Provides an action to select the nearest Composable function call.
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.kotlin</depends>
+
 
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
@@ -13,12 +18,16 @@
             <category>Compose</category>
         </intentionAction>
     </extensions>
+c
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true"/>
+    </extensions>
 
     <actions>
         <action id="ComposableSelectionAction" class="com.github.dungngminh.composableselection.ComposableSelectionAction" text="Select Composable" description="Selects the nearest composable function or matches the parent composable">
-            <keyboard-shortcut keymap="$default" first-keystroke="alt W"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="alt W"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="alt W"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="control shift W"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control shift W" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control shift W" replace-all="true"/>
             <add-to-group group-id="EditMenu" anchor="last"/>
         </action>
     </actions>

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.psi.KtFile
 
 /**
- * Intention Action (Alt+Enter) to select the nearest Composable function.
+ * Intention Action to select the nearest Composable function.
  * Reuses logic from [ComposableSelectionUtils].
  */
 class ComposableSelectionIntention : IntentionAction, PriorityAction {
