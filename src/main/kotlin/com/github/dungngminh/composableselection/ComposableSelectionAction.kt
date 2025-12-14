@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
 
 /**
- * Action triggered by shortcut (Option+W / Alt+W) to select Composable functions.
+ * Action triggered by shortcut (Option+W / Alt+W by default) to select Composable functions.
  */
 class ComposableSelectionAction : AnAction() {
 
@@ -19,7 +19,6 @@ class ComposableSelectionAction : AnAction() {
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) as? KtFile ?: return
 
-        val selectionModel = editor.selectionModel
         val currentCaretOffset = editor.caretModel.offset
         
         val elementAtCaret = psiFile.findElementAt(currentCaretOffset) ?: return

@@ -54,8 +54,7 @@ object ComposableSelectionUtils {
      * @return true if a Composable call is found up the tree, false otherwise.
      */
     fun canSelect(editor: Editor, elementAtCaret: PsiElement): Boolean {
-         val nearestCall = PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) ?: return false
-         return true
+         return PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) != null
     }
 
     private fun selectRange(editor: Editor, range: TextRange) {

@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.dungngminh.composableselection</id>
-    <name>composable_selection</name>
+    <name>Composable Selection</name>
     <vendor>dungngminh</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -17,8 +17,8 @@
     <actions>
         <action id="ComposableSelectionAction" class="com.github.dungngminh.composableselection.ComposableSelectionAction" text="Select Composable" description="Selects the nearest composable function or matches the parent composable">
             <keyboard-shortcut keymap="$default" first-keystroke="alt W"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta W"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta W"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="alt W"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="alt W"/>
             <add-to-group group-id="EditMenu" anchor="last"/>
         </action>
     </actions>
