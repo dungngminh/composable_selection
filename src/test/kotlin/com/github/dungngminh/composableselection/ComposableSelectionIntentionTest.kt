@@ -4,76 +4,58 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 class ComposableSelectionIntentionTest : BasePlatformTestCase() {
 
-    fun `test intention is available on normal function`() {
+    private val sampleStubs = """
+        @Composable
+        fun MyText(text: String) {}
+        
+        fun sum(a: Int, b: Int): Int {
+            return a + b
+        }
+    """.trimIndent()
+
+    fun `test intention is NOT available on normal function`() {
         val code = """
             fun main() {
-                s<caret>um(a, b)
-            }
-            
-            fun sum(a: Int, b: Int): Int {
-                return a + b
+                s<caret>um(1, 2)
             }
         """.trimMargin()
 
+        myFixture.configureByText("Stubs.kt", sampleStubs)
         myFixture.configureByText("Test.kt", code)
-        val action = myFixture.findSingleIntention("Select Composable")
-        assertNotNull(action)
-    }
+        val action = myFixture.getAvailableIntention("Select Composable")
 
-    fun `test intention selects function`() {
-        val code = """
-            fun main() {
-                s<caret>um(a, b)
-            }
-            
-            fun sum(a: Int, b: Int): Int {
-                return a + b
-            }
-        """.trimIndent()
-
-        myFixture.configureByText("Test.kt", code)
-
-        val action = myFixture.findSingleIntention("Select Composable")
-        myFixture.launchAction(action)
-
-        val selection = myFixture.editor.selectionModel.selectedText
-        assertEquals("""sum(a, b)""", selection)
+        assertNull("Intention should not be available for normal functions", action)
     }
 
     fun `test intention is available on composable`() {
         val code = """
-            import androidx.compose.runtime.Composable
-            
             @Composable
             fun MyScreen() {
-                TE<caret>XT("Hello")
+                My<caret>Text("Hello")
             }
-            
-            fun TEXT(text: String) {}
         """.trimIndent()
         
+        myFixture.configureByText("Stubs.kt", sampleStubs)
         myFixture.configureByText("Test.kt", code)
+
         val action = myFixture.findSingleIntention("Select Composable")
         assertNotNull(action)
     }
 
     fun `test intention selects composable`() {
         val code = """
-            import androidx.compose.runtime.Composable
-            
             @Composable
             fun MyScreen() {
-                <caret>TEXT("Hello")
+                My<caret>Text("Hello")
             }
-            
-            fun TEXT(text: String) {}
         """.trimIndent()
         
+        myFixture.configureByText("Stubs.kt", sampleStubs)
         myFixture.configureByText("Test.kt", code)
         val action = myFixture.findSingleIntention("Select Composable")
         myFixture.launchAction(action)
         
         val selection = myFixture.editor.selectionModel.selectedText
-        assertEquals("""TEXT("Hello")""", selection)
+        assertEquals("""MyText("Hello")""", selection)
     }
 }

@@ -22,7 +22,7 @@ object ComposableSelectionUtils {
      * @return true if a selection was made, false otherwise.
      */
     fun selectComposable(editor: Editor, elementAtCaret: PsiElement): Boolean {
-        val nearestCall = PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) ?: return false
+        val nearestCall = getParentComposableCall(elementAtCaret) ?: return false
         val callRange = nearestCall.textRange
 
         val selectionModel = editor.selectionModel
@@ -30,13 +30,13 @@ object ComposableSelectionUtils {
         val currentSelectionEnd = selectionModel.selectionEnd
 
         val isCurrentCallSelected = currentSelectionStart == callRange.startOffset &&
-                                    currentSelectionEnd == callRange.endOffset
+                currentSelectionEnd == callRange.endOffset
 
         if (!isCurrentCallSelected) {
             selectRange(editor, callRange)
             return true
         } else {
-            val parentCall = PsiTreeUtil.getParentOfType(nearestCall, KtCallExpression::class.java)
+            val parentCall = getParentComposableCall(nearestCall)
             if (parentCall != null) {
                 selectRange(editor, parentCall.textRange)
                 return true
@@ -54,7 +54,36 @@ object ComposableSelectionUtils {
      * @return true if a Composable call is found up the tree, false otherwise.
      */
     fun canSelect(editor: Editor, elementAtCaret: PsiElement): Boolean {
-         return PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) != null
+        return getParentComposableCall(elementAtCaret) != null
+    }
+
+    private fun getParentComposableCall(element: PsiElement): KtCallExpression? {
+        var current: PsiElement? = element
+        while (true) {
+            val call =
+                PsiTreeUtil.getParentOfType(current, KtCallExpression::class.java) ?: return null
+            if (isComposableCall(call)) {
+                return call
+            }
+            current = call
+        }
+    }
+
+    private fun isComposableCall(call: KtCallExpression): Boolean {
+        val resolvedCall =
+            call.calleeExpression?.references?.firstOrNull()?.resolve() ?: return false
+        return resolvedCall.isComposableAnnotationPresent()
+    }
+
+    private fun PsiElement.isComposableAnnotationPresent(): Boolean {
+        if (this is org.jetbrains.kotlin.psi.KtNamedDeclaration) {
+            return annotationEntries.any {
+                val loadedShortName = it.shortName?.asString()
+                // Check if it has an annotation named Composable
+                loadedShortName == "Composable" || it.typeReference?.text == "Composable"
+            }
+        }
+        return false
     }
 
     private fun selectRange(editor: Editor, range: TextRange) {
