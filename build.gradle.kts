@@ -52,7 +52,7 @@ intellijPlatform {
 
         description = """
             Developer: dungngminh<br/>
-            Provides easy way to select Composable function (and normal function too)
+            Provides easy way to select Composable function
             <br/><br/>
             <b>Features:</b>
             <ul>
@@ -60,6 +60,10 @@ intellijPlatform {
             </ul>
         """.trimIndent()
         changeNotes = """
+            <b>1.0.2</b>
+            <ul>
+                <li>Fix logic to only work with Compose function</li>
+            </ul>
             <b>1.0.1</b>
             <ul>
                 <li>Update documentation, build configuration</li>

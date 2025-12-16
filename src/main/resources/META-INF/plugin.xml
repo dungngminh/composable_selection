@@ -18,7 +18,7 @@
             <category>Compose</category>
         </intentionAction>
     </extensions>
-c
+
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
         <supportsKotlinPluginMode supportsK2="true"/>
     </extensions>
@@ -26,8 +26,8 @@ c
     <actions>
         <action id="ComposableSelectionAction" class="com.github.dungngminh.composableselection.ComposableSelectionAction" text="Select Composable" description="Selects the nearest composable function or matches the parent composable">
             <keyboard-shortcut keymap="$default" first-keystroke="control shift W"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control shift W" replace-all="true"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control shift W" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control shift W" />
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control shift W" />
             <add-to-group group-id="EditMenu" anchor="last"/>
         </action>
     </actions>
