@@ -14,15 +14,15 @@ object ComposableSelectionUtils {
      * Selects the nearest Composable function call at the caret position.
      *
      * Logic:
-     * 1. If currently inside a Composable call but it's not selected, selects that call.
-     * 2. If the nearest Composable call is already exactly selected, expands selection to its parent Composable call.
+     * 1. If currently inside a call but it's not selected, selects that call.
+     * 2. If the nearest call is already exactly selected, expands selection to its parent call.
      *
      * @param editor The active editor.
      * @param elementAtCaret The PSI element at the current caret position.
      * @return true if a selection was made, false otherwise.
      */
     fun selectComposable(editor: Editor, elementAtCaret: PsiElement): Boolean {
-        val nearestCall = getParentComposableCall(elementAtCaret) ?: return false
+        val nearestCall = PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) ?: return false
         val callRange = nearestCall.textRange
 
         val selectionModel = editor.selectionModel
@@ -36,7 +36,7 @@ object ComposableSelectionUtils {
             selectRange(editor, callRange)
             return true
         } else {
-            val parentCall = getParentComposableCall(nearestCall)
+            val parentCall = PsiTreeUtil.getParentOfType(nearestCall, KtCallExpression::class.java)
             if (parentCall != null) {
                 selectRange(editor, parentCall.textRange)
                 return true
@@ -46,44 +46,15 @@ object ComposableSelectionUtils {
     }
 
     /**
-     * Checks if a Composable selection is possible at the given position.
+     * Checks if a selection is possible at the given position.
      * Used for determining action availability.
      *
      * @param editor The active editor.
      * @param elementAtCaret The PSI element at the current caret position.
-     * @return true if a Composable call is found up the tree, false otherwise.
+     * @return true if a call expression is found up the tree, false otherwise.
      */
     fun canSelect(editor: Editor, elementAtCaret: PsiElement): Boolean {
-        return getParentComposableCall(elementAtCaret) != null
-    }
-
-    private fun getParentComposableCall(element: PsiElement): KtCallExpression? {
-        var current: PsiElement? = element
-        while (true) {
-            val call =
-                PsiTreeUtil.getParentOfType(current, KtCallExpression::class.java) ?: return null
-            if (isComposableCall(call)) {
-                return call
-            }
-            current = call
-        }
-    }
-
-    private fun isComposableCall(call: KtCallExpression): Boolean {
-        val resolvedCall =
-            call.calleeExpression?.references?.firstOrNull()?.resolve() ?: return false
-        return resolvedCall.isComposableAnnotationPresent()
-    }
-
-    private fun PsiElement.isComposableAnnotationPresent(): Boolean {
-        if (this is org.jetbrains.kotlin.psi.KtNamedDeclaration) {
-            return annotationEntries.any {
-                val loadedShortName = it.shortName?.asString()
-                // Check if it has an annotation named Composable
-                loadedShortName == "Composable" || it.typeReference?.text == "Composable"
-            }
-        }
-        return false
+        return PsiTreeUtil.getParentOfType(elementAtCaret, KtCallExpression::class.java) != null
     }
 
     private fun selectRange(editor: Editor, range: TextRange) {

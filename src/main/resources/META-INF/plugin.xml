@@ -25,9 +25,9 @@
 
     <actions>
         <action id="ComposableSelectionAction" class="com.github.dungngminh.composableselection.ComposableSelectionAction" text="Select Composable" description="Selects the nearest composable function or matches the parent composable">
-            <keyboard-shortcut keymap="$default" first-keystroke="control shift W"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control shift W" />
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control shift W" />
+            <keyboard-shortcut keymap="$default" first-keystroke="control alt W"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control alt W" />
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control alt W" />
             <add-to-group group-id="EditMenu" anchor="last"/>
         </action>
     </actions>

@@ -6,19 +6,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.testFramework.TestActionEvent
 
 class ComposableSelectionActionTest : BasePlatformTestCase() {
-    
-    private val sampleStubs = """
-        @Composable
-        fun Text(text: String) {}
-        
-        @Composable
-        fun Column(content: @Composable () -> Unit) {}
-        
-        @Composable
-        fun TextField(value: String, onValueChange: (String) -> Unit) {}
-        
-        fun foo() {}
-    """.trimIndent()
 
     fun `test select nearest composable when caret is inside`() {
         val code = """
@@ -29,12 +16,11 @@ class ComposableSelectionActionTest : BasePlatformTestCase() {
                 }
             }
         """.trimIndent()
-        
-        myFixture.configureByText("Stubs.kt", sampleStubs)
+
         myFixture.configureByText("Test.kt", code)
-        
+
         myFixture.performEditorAction("ComposableSelectionAction")
-        
+
         val selection = myFixture.editor.selectionModel.selectedText
         assertEquals("""Text("Hello")""", selection)
     }
@@ -49,11 +35,10 @@ class ComposableSelectionActionTest : BasePlatformTestCase() {
                 )
             }
         """.trimIndent()
-        
-        myFixture.configureByText("Stubs.kt", sampleStubs)
+
         myFixture.configureByText("Test.kt", code)
         myFixture.performEditorAction("ComposableSelectionAction")
-        
+
         val selection = myFixture.editor.selectionModel.selectedText
         assertTrue(selection?.startsWith("TextField") == true)
     }
@@ -67,35 +52,35 @@ class ComposableSelectionActionTest : BasePlatformTestCase() {
                 }
             }
         """.trimIndent()
-        
-        myFixture.configureByText("Stubs.kt", sampleStubs)
+
         myFixture.configureByText("Test.kt", code)
-        
+
         val textStart = code.indexOf("""Text("Hello")""")
         val textEnd = textStart + """Text("Hello")""".length
         myFixture.editor.selectionModel.setSelection(textStart, textEnd)
         myFixture.editor.caretModel.moveToOffset(textStart)
 
         myFixture.performEditorAction("ComposableSelectionAction")
-        
+
         val selection = myFixture.editor.selectionModel.selectedText
-        
+
         assertTrue(selection?.startsWith("Column") == true)
         assertTrue(selection?.contains("""Text("Hello")""") == true)
     }
 
-    fun `test do not select non-composable function`() {
+    fun `test select non-composable function`() {
         val code = """
             fun main() {
                 f<caret>oo()
             }
+
+            fun foo() {}
         """.trimIndent()
-        
-        myFixture.configureByText("Stubs.kt", sampleStubs)
+
         myFixture.configureByText("Test.kt", code)
         myFixture.performEditorAction("ComposableSelectionAction")
-        
+
         val selection = myFixture.editor.selectionModel.selectedText
-        assertNull(selection)
+        assertEquals("foo()", selection)
     }
 }

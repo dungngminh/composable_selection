@@ -33,7 +33,7 @@ dependencies {
     testImplementation(libs.opentest4j)
 
     intellijPlatform {
-        intellijIdeaCommunity("2024.2")
+        intellijIdeaCommunity("2025.2")
         bundledPlugin("org.jetbrains.kotlin")
         testFramework(TestFrameworkType.Platform)
         pluginVerifier()
@@ -47,7 +47,6 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "242"
-            untilBuild = "253.*"
         }
 
         description = """
@@ -60,6 +59,12 @@ intellijPlatform {
             </ul>
         """.trimIndent()
         changeNotes = """
+            <b>1.0.3</b>
+            <ul>
+                <li>Remove Composable-only selection restriction, now selects any function call</li>
+                <li>Fix keyboard shortcut not working on IntelliJ 2025.* by adding ActionUpdateThread.BGT</li>
+                <li>Change keyboard shortcut from Ctrl+Shift+W to Ctrl+Alt+W to avoid conflict with built-in Shrink Selection</li>
+            </ul>
             <b>1.0.2</b>
             <ul>
                 <li>Fix logic to only work with Compose function</li>
