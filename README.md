@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/dungngminh/composable_selection/actions/workflows/build.yml"><img src="https://github.com/dungngminh/composable_selection/workflows/Build/badge.svg" alt="Build" /></a>
   <a href="https://plugins.jetbrains.com/plugin/29376-composable-selection"><img src="https://img.shields.io/jetbrains/plugin/v/29376.svg" alt="Version" /></a>
-  <a href="https://plugins.jetbrains.com/plugin/29376-composable-selection"><img src="https://img.shields.io/jetbrains/plugin/d/29376.svg" alt="Downloads" /></a>
+  <a href="https://plugins.jetbrains.com/pli ugin/29376-composable-selection"><img src="https://img.shields.io/jetbrains/plugin/d/29376.svg" alt="Downloads" /></a>
 </p>
 
 <!-- Plugin description -->
